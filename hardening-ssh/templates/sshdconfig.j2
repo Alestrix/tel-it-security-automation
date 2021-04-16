@@ -147,6 +147,17 @@ Banner none
 {% if config_sftp %}
 Subsystem sftp internal-sftp -l {{sftp_logging}}
 
+{% if 2222 in config_server_ports %}
+Match LocalPort 2222
+    ChrootDirectory /opt
+    ForceCommand internal-sftp -R
+    AllowTcpForwarding no
+    AllowAgentForwarding no
+    PasswordAuthentication no
+    PermitRootLogin no
+    X11Forwarding no
+{% endif %}
+
 {% if set_sftp_chroot %}
 Match Group {{sftp_group}}
     ForceCommand internal-sftp -l {{sftp_logging}}
